@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
+import uploadRouter from "./routes/upload.routes.js";
 
 dotenv.config();
 const app = express();
@@ -10,10 +11,7 @@ app.use(cors({
     allowedHeaders: ["*"],
     origin: "*"
 }));
-app.use("/", (req, res) => {
-    console.log(" entered into root navigation "); 
-    res.send('Youtube project');
-});
+app.use("/upload", uploadRouter);
 
 app.listen(port,() =>{
     console.log(`Server is listening @ http://localhost:${port}`);
