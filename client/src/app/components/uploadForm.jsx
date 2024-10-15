@@ -14,7 +14,11 @@ const UploadForm = () => {
    }; 
    const handleFileUpload = async (file) => { 
      try {
-         if(!file) return;
+         if(!file){
+          console.log("** no file selected in client ** ",file);
+          return;
+        }
+        console.log("** Selected file ** ",file);
          const formData = new FormData();
          formData.append('file', file);
          console.log('Going to upload file to server');
@@ -23,7 +27,7 @@ const UploadForm = () => {
              'Content-Type': 'multipart/form-data'
            }
          });
-         console.log(res.data);
+         console.log("** check on client the result after upload ",res);
        } catch (error) {
          console.error('Error uploading file:', error);
        }
@@ -39,7 +43,5 @@ const UploadForm = () => {
        </form>
    </div>
  )
-}
-
-
+} 
 export default UploadForm
