@@ -11,6 +11,7 @@ app.use(cors({
     allowedHeaders: ["*"],
     origin: "*"
 }));
+app.use(express.json());
 app.use("/upload", uploadRouter);
 
 app.listen(port,() =>{
