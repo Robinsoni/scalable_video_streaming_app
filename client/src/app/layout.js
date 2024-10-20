@@ -16,4 +16,4 @@ export default function RootLayout({ children }) {
        <body className={inter.className}>{children}</body>
      </SessionProviderAuth>
    </html>
- )}
+ )};
