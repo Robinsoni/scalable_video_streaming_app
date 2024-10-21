@@ -1,3 +1,4 @@
+import { addVideoDetailsToDB } from "../db/db.js";
 import awsS3 from "../utils/s3.js";
 export const initializeUpload = async (req, res) => {
     try {
@@ -23,12 +24,12 @@ export const initializeUpload = async (req, res) => {
 };
 export const abort = async (req, res) => {
     try {
-        const {key,uploadId} = req.body;
+        const { key, uploadId } = req.body;
         const bucketName = process.env.AWS_BUCKET;
         const abortParams = {
-          Bucket: bucketName,
-          Key: key,
-          UploadId: uploadId,
+            Bucket: bucketName,
+            Key: key,
+            UploadId: uploadId,
         };
         const s3 = new awsS3().s3;
         var data = await s3.abortMultipartUpload(abortParams).promise();
@@ -37,7 +38,7 @@ export const abort = async (req, res) => {
     } catch (err) {
         console.error("Error aborting multipart upload:", err);
         return res.status(500).send("Error aborting multipart upload.");
-      }
+    }
 };
 
 export const uploadChunk = async (req, res) => {
@@ -88,13 +89,33 @@ export const completeUpload = async (req, res) => {
         completeParams.MultipartUpload = {
             Parts: parts
         };
-        // Completing multipart upload using promise
+        // Completing multipart upload using promise //
         const uploadResult = await s3.completeMultipartUpload(completeParams).promise();
         console.log("data----- ", uploadResult);
+
+        console.log("Updating data in DB");
+
+
+        const url = uploadResult.Location;
+        console.log("Video uploaded at ", url);
+
+        await addVideoDetailsToDB(title, description, author, url);
         return res.status(200).json({ message: "Uploaded successfully!!!" });
     } catch (error) {
         console.log('Error completing upload :', error);
         return res.status(500).send('Upload completion failed');
     }
 };
+
+export const uploadToDb = async (req, res) => {
+    console.log("Adding details to DB");
+    try {
+        const videoDetails = req.body;
+        await addVideoDetailsToDB(videoDetails.title, videoDetails.description, videoDetails.author, videoDetails.url);
+        return res.status(200).send("success");
+    } catch (error) {
+        console.log("Error in adding to DB ", error);
+        return res.status(400).send(error);
+    }
+}
 
