@@ -11,10 +11,18 @@ const UploadForm = () => {
   const [description, setDescription] = useState('');
   const [author, setAuthor] = useState('');
 
+  console.log("* Session data in upload ", data);
   const handleFileChange = (e) => {
     setSelectedFile(e.target.files[0]);
   };
  
+  useEffect(() => {
+    console.log('data------- ', data);
+    if(!data) {
+      console.log('redirecting');
+      redirect("/");
+    }
+  }, []);
 
   const handleUpload = async () => {
 

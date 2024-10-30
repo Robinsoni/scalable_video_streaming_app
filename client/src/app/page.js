@@ -1,14 +1,15 @@
 import Image from "next/image";
-import UploadPage from "./pages/uploadPage";
+import UploadPage from "./upload/page";
 import AuthPage from "./pages/auth";
 import AppHome from "./pages/appHome";
+import NavBar from "./components/navbar";
 
 export default function Home() {
   return ( 
     <>
-      {<div><UploadPage/></div>}
-      <div> test ytb</div>
-      <div><AppHome /></div>
+      <NavBar/>
+      {/* <div><UploadPage/></div> */}
+     <div><AppHome /></div> 
      {/* <div><AuthPage /></div> */}
     </>
   );
