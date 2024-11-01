@@ -5,3 +5,5 @@
 **/out/
 **/build
 **/*.pem
+transcoder_service/output/*
+!transcoder_service/output/.gitkeep
