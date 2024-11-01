@@ -9,7 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "aws-sdk": "^2.1691.0",
     "axios": "^1.7.7",
+    "hls.js": "^1.5.17",
     "next": "14.2.15",
     "next-auth": "^4.24.8",
     "react": "^18",

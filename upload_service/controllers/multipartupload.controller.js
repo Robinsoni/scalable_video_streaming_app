@@ -1,5 +1,6 @@
 import { addVideoDetailsToDB } from "../db/db.js";
 import awsS3 from "../utils/s3.js";
+import { pushVideoForEncodingToKafka } from "./kafkapublisher.controller.js";
 export const initializeUpload = async (req, res) => {
     try {
         console.log("Initialize upload");
@@ -100,6 +101,7 @@ export const completeUpload = async (req, res) => {
         console.log("Video uploaded at ", url);
 
         await addVideoDetailsToDB(title, description, author, url);
+        pushVideoForEncodingToKafka(filename,url);
         return res.status(200).json({ message: "Uploaded successfully!!!" });
     } catch (error) {
         console.log('Error completing upload :', error);
